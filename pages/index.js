@@ -2,8 +2,9 @@ import Head from "next/head";
 import Image from "next/image";
 import { Container, Card, Row, Text } from "@nextui-org/react";
 import Header from "@/components/header";
+import fs from "fs/promises";
 
-export default function Home({ articles }) {
+export default function Home({ latestComics }) {
   return (
     <div>
       <Head>
@@ -28,4 +29,25 @@ export default function Home({ articles }) {
       </main>
     </div>
   );
+}
+
+export async function getStaticProps(context) {
+  //aqui la ruta me tiraba un error indicaba que no existia la ruta, se recomienda colocar ruta no partiendo desde el archivo index.js(../scraping/comics) sino de la ruta principal (./scraping/comics)
+  const files = await fs.readdir("./scraping/comics");
+  const lastestComicsFiles = files.slice(-8, files.length);
+
+  const promisesReadFiles = lastestComicsFiles.map(async (file) => {
+    const content = await fs.readFile(`./scraping/comics/${file}`, "utf8");
+    return JSON.parse(content);
+  });
+
+  const latestComics = await Promise.all(promisesReadFiles);
+
+  console.log(latestComics);
+
+  return {
+    props: {
+      latestComics,
+    },
+  };
 }
