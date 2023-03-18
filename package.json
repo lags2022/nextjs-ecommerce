@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.14",
+    "image-size": "1.0.2",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.7"
   }

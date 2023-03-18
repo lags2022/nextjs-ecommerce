@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Container, Card, Row, Text } from "@nextui-org/react";
 import Header from "@/components/header";
 import fs from "fs/promises";
+import Link from "next/link";
 
 export default function Home({ latestComics }) {
   return (
@@ -12,20 +13,26 @@ export default function Home({ latestComics }) {
       </Head>
       <Header />
       <main>
-        <h1>pruebas</h1>
-        <Container>
-          <Card css={{ $$cardColor: "$colors$primary" }}>
-            <Card.Body>
-              <Row justify="center" align="center">
-                <Text h6 size={15} color="white" css={{ m: 0 }}>
-                  NextUI gives you the best developer experience with all the
-                  features you need for building beautiful and modern websites
-                  and applications. mother fucker
-                </Text>
-              </Row>
-            </Card.Body>
-          </Card>
-        </Container>
+        <h2 className="text-3xl font-bold text-center mb-10">Latest comics</h2>
+        <section className="grid grid-cols-1 gap-2 max-w-md m-auto sm:grid-cols-2 md:grid-cols-3">
+          {latestComics.map((comic) => {
+            return (
+              <Link className="mb-4 pb-4 m-auto" href={`/comic/${comic.id}`} key={comic.id}>
+                <h3 className=" font-bold text-sm text-center pb-4">
+                  {comic.title}
+                </h3>
+                <Image
+                  width="300"
+                  height="300"
+                  loyout="intrinsic"
+                  objectFit="contain"
+                  src={comic.img}
+                  alt={comic.alt}
+                />
+              </Link>
+            );
+          })}
+        </section>
       </main>
     </div>
   );
