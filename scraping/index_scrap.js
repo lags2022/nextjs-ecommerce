@@ -8,6 +8,10 @@ const endTime = time();
 const INITIAL_ID_XKCD_COMIC = 2700;
 const FINAL_ID_XKCD_COMIC = 2750;
 
+//para algolia:
+const indexFileContent = [];
+//
+
 for (let id = INITIAL_ID_XKCD_COMIC; id <= FINAL_ID_XKCD_COMIC; id++) {
   const url = `https://xkcd.com/${id}/info.0.json`;
   log(`Fetching ${url}...`);
@@ -17,9 +21,14 @@ for (let id = INITIAL_ID_XKCD_COMIC; id <= FINAL_ID_XKCD_COMIC; id++) {
   const { height, width } = await getImageSizefunction({ url: img });
   log(`Got image dimensions: ${width}x${height}`);
   const comicToStore = { id, img, height, width, ...restOfComic };
+  //para algolia:
+  indexFileContent.push(comicToStore);
+  //
   const jsonFile = `./comics/${id}.json`;
   await fs.writeJSON(jsonFile, comicToStore);
   log(`Wrote ${jsonFile}! ✅\n`);
 }
-
+//para algolia:
+await fs.writeJSON("./comics/index.json", indexFileContent);
+log(`Wrote Index Content! ✅\n`);
 endTime();
