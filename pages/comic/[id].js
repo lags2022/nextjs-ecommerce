@@ -1,9 +1,9 @@
 import Head from "next/head";
-import Header from "components/Header";
 import Image from "next/image";
 import { readFile, readdir, stat } from "fs/promises";
 import Link from "next/link";
 import { basename } from "path";
+import Layout from "@/components/Layout";
 
 export default function Comic({
   img,
@@ -21,36 +21,36 @@ export default function Comic({
       <Head>
         <title>xkcd - Comics for developers</title>
         <meta name="description" content="Comics for developers" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
-      <main>
-        <section className="max-w-md m-auto">
-          <h1 className=" font-bold text-xl text-center mb-4">{title}</h1>
-          <div className=" max-w-xs m-auto">
-            <Image
-              layout="responsive"
-              width={width}
-              height={height}
-              src={img}
-              alt={alt}
-            />
-          </div>
-          <p>{alt}</p>
-          <div className="flex justify-between mt-4 font-bold">
-            {hasPrevious && (
-              <Link className=" text-gray-600" href={`/comic/${prevId}`}>
-                ⬅️ Previous
-              </Link>
-            )}
-            {hasNext && (
-              <Link className=" text-gray-600" href={`/comic/${nextId}`}>
-                Next ➡️
-              </Link>
-            )}
-          </div>
-        </section>
-      </main>
+      <Layout>
+        <main>
+          <section className="max-w-md m-auto">
+            <h1 className=" font-bold text-xl text-center mb-4">{title}</h1>
+            <div className=" max-w-xs m-auto">
+              <Image
+                layout="responsive"
+                width={width}
+                height={height}
+                src={img}
+                alt={alt}
+              />
+            </div>
+            <p>{alt}</p>
+            <div className="flex justify-between mt-4 font-bold">
+              {hasPrevious && (
+                <Link className=" text-gray-600" href={`/comic/${prevId}`}>
+                  ⬅️ Previous
+                </Link>
+              )}
+              {hasNext && (
+                <Link className=" text-gray-600" href={`/comic/${nextId}`}>
+                  Next ➡️
+                </Link>
+              )}
+            </div>
+          </section>
+        </main>
+      </Layout>
     </>
   );
 }
