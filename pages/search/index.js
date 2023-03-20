@@ -1,7 +1,10 @@
 import Layout from "@/components/Layout";
 import Head from "next/head";
+import Link from "next/link";
+import Image from "next/image";
+import { search } from "../services/search";
 
-export default function Component({ query }) {
+export default function Component({ query, results }) {
   return (
     <>
       <Head>
@@ -10,8 +13,27 @@ export default function Component({ query }) {
       </Head>
 
       <Layout>
-        <h1>{query}</h1>
-        <p>lorem lorem lorem lorem lorem </p>
+        <h1>
+          {results.length} Resultados para {query}
+        </h1>
+        {results.map((result) => (
+          <Link
+            key={result.id}
+            href={`/comic/${result.id}`}
+            className="flex flex-row content-center justify-start bg-slate-300 hover:bg-slate-50 "
+          >
+            <Image
+              width="30"
+              height="30"
+              alt={result.alt}
+              src={result.img}
+              className=" rounded-full"
+            />
+            <div>
+              <h2>{result.title}</h2>
+            </div>
+          </Link>
+        ))}
       </Layout>
     </>
   );
@@ -19,12 +41,19 @@ export default function Component({ query }) {
 
 export async function getServerSideProps(context) {
   const { q = "" } = context.query;
-  console.log(q);
+
+  //mala practica jamas hacerlo. esto solo se realizara cuando se realice peticion a terceros, pero no a nuestra microservicio que hemos creado
+  // const results = await fetch(`http://localhost:3000/api/search?q=${q}`).then(
+  //   (res) => res.json()
+  // );
 
   //llamar a la api de Algolia para buscar los resultados
+  const { results } = await search({ query: q });
+
   return {
     props: {
       query: q,
+      results,
     },
   };
 }

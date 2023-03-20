@@ -1,7 +1,17 @@
-import { Container, Text } from "@nextui-org/react";
 import Link from "next/link";
+import { useState, useRef } from "react";
 
 export default function Header() {
+  const [results, setResults] = useState([]);
+  const searchRef = useRef();
+
+  const q = searchRef.current?.value;
+
+  const handleChange = () => {
+    fetch(`/api/search?q=${q}`)
+      .then((res) => res.json())
+      .then((searchResults) => setResults(searchResults));
+  };
   return (
     <header className="flex justify-between items-center p-4 max-w-xl m-auto">
       <h1 className="font-bold">
@@ -19,13 +29,51 @@ export default function Header() {
             </Link>
           </li>
           <li>
-            <Link className="text-sm font-semibold" href="/search">
-              Search
-            </Link>
+            {/* <Link className="text-sm font-semibold" href="/search">
+            Search
+            </Link> */}
+            <input
+              className=" rounded-3xl border-gray-400 px-2 py-1 border text-xs "
+              ref={searchRef}
+              type="search"
+              onChange={handleChange}
+            />
+            <div className="relative z-10 ">
+              {
+                //mejor colocar boolean para que no salga 0 en el input
+                Boolean(results.length) && (
+                  <div className="absolute top-0 left-0">
+                    <ul className="w-full border border-gray-50 rounded-lg shadow-xl z-50 bg-white overflow-hidden ">
+                      <li className="m-0" key="all-results">
+                        <Link
+                          href={`/search?q=${q}`}
+                          className="italic block px-2 py-1 text-sm font-semibold hover:bg-slate-200 text-ellipsis overflow-hidden whitespace-nowrap text-gray-400 "
+                        >
+                          Ver {results.length} resultados
+                        </Link>
+                      </li>
+
+                      {results.map((result) => {
+                        return (
+                          <li className="m-0" key={result.id}>
+                            <Link
+                              href={`/comic/${result.id}`}
+                              className=" block px-2 py-1 text-sm font-semibold hover:bg-slate-200 text-ellipsis overflow-hidden whitespace-nowrap "
+                            >
+                              {result.title}
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                )
+              }
+            </div>
           </li>
           {/* </Container> */}
         </ul>
-      </nav>{" "}
+      </nav>
     </header>
   );
 }
