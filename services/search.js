@@ -1,7 +1,10 @@
 // For the search only version
 import algoliasearch from "algoliasearch/lite";
 //esta peticion no lo ve el cliente
-const client = algoliasearch("FKXXCAJOUJ", "410e0592cccd6f4a29739467e1757ee4");
+
+const { APP_ID, API_KEY } = process.env;
+
+const client = algoliasearch(APP_ID, API_KEY);
 const index = client.initIndex("prod_xkcd");
 
 //cache de memoria

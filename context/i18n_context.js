@@ -18,7 +18,7 @@ export function I18NProvider({ children }) {
       // para no usar objectos para traducir
       // se puede usar regex para hacer esto, pero asi es mas facil de entender
       args.forEach((value, index) => {
-        console.log(value);
+        // console.log(value);
         translation = translation.replace(`\${${index + 1}}`, value);
       }); //puedes dejarlo cero pero como colocastes: ${1} results for ${2}, el 1 y el 2 es la posicion del array, por eso se coloca index+1
       // tbm se puede usar esto: "SEARCH_RESULTS_TITLE": "%1 results for %2" en vez de esto: "SEARCH_RESULTS_TITLE": "${1} results for ${2}"
