@@ -52,7 +52,7 @@ export default function Home({ latestComics }) {
 export async function getStaticProps(context) {
   //aqui la ruta me tiraba un error indicaba que no existia la ruta, se recomienda colocar ruta no partiendo desde el archivo index.js(../scraping/comics) sino de la ruta principal (./scraping/comics)
   const files = await fs.readdir("./scraping/comics");
-  const lastestComicsFiles = files.slice(-10, files.length); //aqui tienes que poner -10 para que salgan los 9 ulitmos. estaba antes -8 pa que salgan los 8 ultimos. pero como dentro de la carpeta "./scraping/comics" tbm esta index.json el files.length saldra unos mas.
+  const lastestComicsFiles = files.slice(-9, files.length); //aqui tienes que poner -10 para que salgan los 9 ulitmos. estaba antes -8 pa que salgan los 8 ultimos. pero como dentro de la carpeta "./scraping/comics" tbm esta index.json el files.length saldra unos mas. pero ya lo quite en el deploy para evitar problemas.
 
   const promisesReadFiles = lastestComicsFiles.map(async (file) => {
     const content = await fs.readFile(`./scraping/comics/${file}`, "utf8");

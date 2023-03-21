@@ -29,6 +29,6 @@ for (let id = INITIAL_ID_XKCD_COMIC; id <= FINAL_ID_XKCD_COMIC; id++) {
   log(`Wrote ${jsonFile}! ✅\n`);
 }
 //para algolia:
-await fs.writeJSON("./comics/index.json", indexFileContent);
+await fs.writeJSON("./comics_all/index.json", indexFileContent);
 log(`Wrote Index Content! ✅\n`);
 endTime();
