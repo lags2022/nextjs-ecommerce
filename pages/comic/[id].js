@@ -55,13 +55,34 @@ export default function Comic({
   );
 }
 
-export async function getStaticPaths() {
+export async function getStaticPaths({ locales }) {
   const files = await readdir("./scraping/comics");
 
-  const paths = files.map((file) => {
-    const id = basename(file, ".json");
-    return { params: { id } };
+  let paths = [];
+
+  // locales.forEach((locale) => {
+  //   //ojo concat no modifica el array original, sino que crea uno nuevo. por eso se usa let paths = [];
+  //   paths = paths.concat(
+  //     files.map((file) => {
+  //       const id = basename(file, ".json");
+  //       return { params: { id }, locale };
+  //     })
+  //   );
+  // });
+  // tbm se puede hacer asi:
+
+  locales.forEach((locale) => {
+    const localePaths = files.map((file) => {
+      const id = basename(file, ".json");
+      return { params: { id }, locale };
+    });
+    paths = [...paths, ...localePaths];
   });
+
+  // const paths = files.map((file) => {
+  //   const id = basename(file, ".json");
+  //   return { params: { id } };
+  // });
 
   return {
     paths,
