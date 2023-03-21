@@ -1,9 +1,23 @@
 import Link from "next/link";
 import { useState, useRef } from "react";
+import { useRouter } from "next/router";
 
 export default function Header() {
   const [results, setResults] = useState([]);
   const searchRef = useRef();
+
+  //locale es el idioma actual y locales es un array con todos los idiomas configurados
+  const { locale, locales } = useRouter();
+
+  const restOfLocales = locales.filter((l) => l !== locale);
+  //esta funcion solo es para mostrar el idioma actual y los demas idiomas
+  // const showLocale = () => {
+  //   const restOfLocales = locales.filter((l) => l !== locale);
+  //   return {
+  //     selectedLocale: locale,
+  //     restOfLocales,
+  //   };
+  // };
 
   const getValue = () => searchRef.current?.value;
 
@@ -30,6 +44,11 @@ export default function Header() {
               Home
             </Link>
           </li>
+
+          <li>
+            <Link href="/" locale={restOfLocales[0]}  >{restOfLocales[0]}</Link>
+          </li>
+
           <li>
             {/* <Link className="text-sm font-semibold" href="/search">
             Search

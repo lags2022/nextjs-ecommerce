@@ -1,4 +1,4 @@
-import { search } from "../services/search"
+import { search } from "../../services/search"
 
 export default async function handler(req, res) {
   //  const { q } = req.query; otra forma de hacerlo

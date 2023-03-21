@@ -2,9 +2,12 @@ import Layout from "@/components/Layout";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import { search } from "../services/search";
+import { search } from "../../services/search";
+import { useI18N } from "../../context/i18n_context";
 
 export default function Component({ query, results }) {
+  const { t } = useI18N();
+
   return (
     <>
       <Head>
@@ -14,7 +17,8 @@ export default function Component({ query, results }) {
 
       <Layout>
         <h1>
-          {results.length} Resultados para {query}
+          {t("SEARCH_RESULTS_TITLE", results.length, query)}
+          {/* {results.length} Resultados para {query} */}
         </h1>
         {results.map((result) => (
           <Link
